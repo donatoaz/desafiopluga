@@ -1,114 +1,39 @@
+require './lib/standard'
+require './lib/console'
+
+# Abstraction for gameplay
 class Game
-  def initialize
-    @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-    @com = "X" # the computer's marker
-    @hum = "O" # the user's marker
+  def initialize(ttt = TicTacToe::Standard.new(View::Console.new))
+    @ttt = ttt
   end
 
   def start_game
-    # start by printing the board
-    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
-    puts "Enter [0-8]:"
-    # loop through until the game was won or tied
-    until game_is_over(@board) || tie(@board)
-      get_human_spot
-      if !game_is_over(@board) && !tie(@board)
-        eval_board
-      end
-      puts " #{@board[0]} | #{@board[1]} | #{@board[2]} \n===+===+===\n #{@board[3]} | #{@board[4]} | #{@board[5]} \n===+===+===\n #{@board[6]} | #{@board[7]} | #{@board[8]} \n"
-    end
-    puts "Game over"
-  end
+    # print welcome message to user
+    puts @ttt.welcome_message
 
-  def get_human_spot
-    spot = nil
-    until spot
-      spot = gets.chomp.to_i
-      if @board[spot] != "X" && @board[spot] != "O"
-        @board[spot] = @hum
-      else
-        spot = nil
-      end
+    # loop through until the game is over
+    until @ttt.game_is_over || @ttt.game_is_tie
+      @ttt.render
+      @ttt.run_turn
     end
-  end
-
-  def eval_board
-    spot = nil
-    until spot
-      # who's a good boy?? Computer always plays center first, if it has a
-      #  chance
-      if @board[4] == "4"
-        spot = 4
-        @board[spot] = @com
-      else
-        spot = get_best_move(@board, @com)
-        if @board[spot] != "X" && @board[spot] != "O"
-          @board[spot] = @com
-        else
-          spot = nil
-        end
-      end
-    end
-  end
-
-  def get_best_move(board, next_player, depth = 0, best_score = {})
-    available_spaces = []
-    best_move = nil
-    board.each do |s|
-      if s != "X" && s != "O"
-        available_spaces << s
-      end
-    end
-    available_spaces.each do |as|
-      board[as.to_i] = @com
-      # checks if a given move ends the game, if it does, than it is the best
-      #  move, return it
-      if game_is_over(board)
-        best_move = as.to_i
-        board[as.to_i] = as
-        return best_move
-      else
-        # otherwise check if there is an opponent's move that would end the
-        #  game, we don't want that, so let's play deffensive and block it
-        board[as.to_i] = @hum
-        if game_is_over(board)
-          best_move = as.to_i
-          board[as.to_i] = as
-          return best_move
-        else
-          board[as.to_i] = as
-        end
-      end
-    end
-    if best_move
-      return best_move
+    @ttt.render
+    if @ttt.game_is_tie
     else
-      # if there is no winning move, pick a random out of the available_spaces
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
+      # this does not belong here... correct later
+      winner = @ttt.winning_player
+      puts "#{winner} won the game!"
     end
   end
-
-  def game_is_over(b)
-
-    # testing horizontal lines
-    [b[0], b[1], b[2]].uniq.length == 1 ||
-    [b[3], b[4], b[5]].uniq.length == 1 ||
-    [b[6], b[7], b[8]].uniq.length == 1 ||
-    # testing vertical lines
-    [b[0], b[3], b[6]].uniq.length == 1 ||
-    [b[1], b[4], b[7]].uniq.length == 1 ||
-    [b[2], b[5], b[8]].uniq.length == 1 ||
-    # testing both diagonals
-    [b[0], b[4], b[8]].uniq.length == 1 ||
-    [b[2], b[4], b[6]].uniq.length == 1
-  end
-
-  def tie(b)
-    b.all? { |s| s == "X" || s == "O" }
-  end
-
 end
 
-game = Game.new
+game = Game.new(TicTacToe::Standard.new(View::Console.new, '4x4',
+                                    [
+                                      { type: :human, marker: 'x',
+                                        name: 'Donato' },
+                                      { type: :human, marker: 'o',
+                                        name: 'Carol' }
+                                      # { type: :computer, marker: 'o',
+                                      #   level: :easy }
+                                    ].each))
+
 game.start_game
