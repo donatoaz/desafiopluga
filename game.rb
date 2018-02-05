@@ -26,14 +26,12 @@ class Game
   end
 end
 
-game = Game.new(TicTacToe::Standard.new(View::Console.new, '4x4',
+game = Game.new(TicTacToe::Standard.new(View::Console.new, '3x3',
                                     [
                                       { type: :human, marker: 'x',
                                         name: 'Donato' },
-                                      { type: :human, marker: 'o',
-                                        name: 'Carol' }
-                                      # { type: :computer, marker: 'o',
-                                      #   level: :easy }
+                                      { type: :computer, marker: 'o',
+                                        level: :easy }
                                     ].each))
 
 game.start_game
