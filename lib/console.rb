@@ -10,14 +10,19 @@ class View::Console
   end
 
   def render_board(board)
+    _line = board.size > 9 ? '----' : '---'
     (0..(board.num_rows - 1)).to_a.each do |row|
+      print '+'
+      puts "#{_line}+" * board.num_rows
       (0..(board.num_cols - 1)).to_a.each do |col|
         print '|' if col.zero?
         print " #{_padding_l(board, row, col)}#{board[row, col]} |"
       end
       puts ''
-      puts ''
     end
+    print '+'
+    puts "#{_line}+" * board.num_rows
+    puts ''
   end
 
   def _padding_l(board, row, col)
@@ -30,7 +35,7 @@ class View::Console
   end
 
   def read_move
-    gets.chomp
+    STDIN.gets.chomp
   end
 
   def help

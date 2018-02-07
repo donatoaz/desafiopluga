@@ -2,11 +2,14 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
+    daemons (1.2.6)
+    eventmachine (1.2.5)
     minitest (5.11.3)
     parallel (1.12.1)
     parser (2.4.0.2)
       ast (~> 2.3)
     powerpack (0.1.1)
+    rack (2.0.4)
     rainbow (3.0.0)
     rake (12.3.0)
     rubocop (0.52.1)
@@ -17,6 +20,11 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
+    slop (4.6.1)
+    thin (1.7.2)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
     unicode-display_width (1.3.0)
 
 PLATFORMS
@@ -24,8 +32,11 @@ PLATFORMS
 
 DEPENDENCIES
   minitest
+  rack
   rake
   rubocop (~> 0.52.1)
+  slop
+  thin
 
 BUNDLED WITH
    1.16.0

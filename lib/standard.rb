@@ -13,7 +13,7 @@ class TicTacToe::Standard < TicTacToe
   def best_effort_move(player)
     @board.available_spaces.each do |as|
       spot = as.to_i
-      move_to(spot, {marker: marker})
+      move_to(spot, player)
       # 1. checks if 'as' move ends the game, if it does, than it is the best move
       if game_is_over
         return as.to_i, false
@@ -21,7 +21,7 @@ class TicTacToe::Standard < TicTacToe
         move_to(spot, {marker: as})
         # 2. otherwise check if there is an opponent's move that would end the
         #  game, we don't want that, so let's play deffensive and block it
-        opponent_markers = markers.select { |m| m !~ /^#{marker}$/ }
+        opponent_markers = markers.select { |m| m !~ /^#{player[:marker]}$/ }
         opponent_markers.each do |m|
           move_to(spot, {marker: m})
           if game_is_over

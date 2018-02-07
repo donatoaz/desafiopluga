@@ -30,6 +30,7 @@ class TicTacToe
   end
 
   def run_turn
+    render
     begin
       @current_player = @players.next
       spot = nil
@@ -54,7 +55,8 @@ class TicTacToe
     when :easy
       return @board.available_spaces.sample
     when :medium
-      return best_effort_move(player)
+      spot, was_move_random = best_effort_move(player)
+      return spot
     else
       return best_move(player)
     end
