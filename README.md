@@ -10,6 +10,12 @@ git clone https://github.com/donatoaz/desafiopluga.git
 
 2. Run `ruby game.rb`
 
+## Running tests
+
+```
+rake test
+```
+
 ---
 
 ## Credits
