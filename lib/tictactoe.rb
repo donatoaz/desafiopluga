@@ -1,4 +1,4 @@
-require './lib/board'
+require_relative 'board'
 
 class TicTacToe
 
@@ -27,6 +27,20 @@ class TicTacToe
 
   def get_player_move
     @view.read_move
+  end
+
+  def run_turn_non_blocking
+    begin
+      @current_player = @players.next
+      spot = nil
+      unless @current_player[:type] == :human
+        spot = get_ai_move(@current_player).to_i
+        move_to(spot, @current_player)
+      end
+    rescue StopIteration => e
+      @players.rewind
+      retry
+    end
   end
 
   def run_turn

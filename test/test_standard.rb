@@ -46,7 +46,7 @@ class TestStandard < Minitest::Test
     n = [3, 5, 7, 9, 11].sample
     new_standard = TicTacToe::Standard.new(View::Console.new, "#{n}x#{n}")
     (0..(n * n - 1)).to_a.each do |spot|
-      marker = (spot % 2).zero? ? 'x' : 'o'
+      marker = ('a'..'z').to_a.sample
       new_standard.move_to(spot, { type: :human, marker: marker })
     end
 

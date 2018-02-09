@@ -89,7 +89,10 @@ class Board
     @board.all? { |v| v !~ /\d+/ }
   end
 
-  def available?(p)
+  def available?(*args)
+    raise 'Invalid arguments' if args.size > 2
+    p = args[0]
+    p = _rc_to_spot(p, args[1]) if args.size == 2
     within_range(p) && @board[p] == p.to_s
   end
 

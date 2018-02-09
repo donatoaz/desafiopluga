@@ -1,4 +1,4 @@
-require './lib/tictactoe'
+require_relative 'tictactoe'
 ##
 # Classic implementation of Tic Tac Toe
 # see method rulebook for rules
@@ -62,7 +62,7 @@ class TicTacToe::Standard < TicTacToe
   end
 
   def game_is_tie(b = @board)
-    @board.all_filled
+    !game_is_over(b) && @board.all_filled
   end
 
   # find out how to test this
